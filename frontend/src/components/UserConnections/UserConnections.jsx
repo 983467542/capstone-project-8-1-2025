@@ -102,14 +102,6 @@ const UserConnections = () => {
     }
   }, [user]);
 
-  if (!user) {
-    return (
-      <>
-        <p>Please log in to view and manage your connection results.</p>
-      </>
-    )
-  }
-
   return (
     <div className={`user-connections-header ${theme}`}>
       <UseState setTheme={setTheme} theme={theme} />
@@ -147,9 +139,9 @@ const UserConnections = () => {
                   <strong>{item.username}</strong> ({item.firstName}) — <strong>Age: </strong>{item.age || 'Not added yet'} — <strong>Ethnicity: </strong>{Array.isArray(item.ethnicity) ? item.ethnicity.join(', ') : item.ethnicity || 'Undisclosed'} — <strong>Interests: </strong>{item.interests || 'Not added yet'} — <strong>Objectives: </strong>{item.objectives || 'Not added yet'} — <strong>Bio: </strong>{item.bio || 'Not added yet'}
                   <br />
                   <Link to={`/connection-profile/${item.id}`}>
-                    <button 
-                    type="button" 
-                    className={`user-connections-rounded-rectangular-button ${theme}`}>View Connection Profile</button>
+                    <button
+                      type="button"
+                      className={`user-connections-rounded-rectangular-button ${theme}`}>View Connection Profile</button>
                   </Link>
                 </p>
               );
