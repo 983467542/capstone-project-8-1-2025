@@ -1,0 +1,177 @@
+/* frontend/src/components/UserConnectionsForms/UserConnectionsForms.css */
+/* .submit-button {
+  background-color: #1e4a2b;
+  color: black;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  font-family: "Times New Roman";
+}
+
+.submit-button:hover {
+  background-color: #327d4a;
+  font-family: "Times New Roman";
+}
+
+.submit-button:active {
+  background-color: #327d4a;
+  transform: scale(0.98);
+  font-family: "Times New Roman";
+}
+
+.clear-filtered-results-button {
+  background-color: transparent;
+  color: white;
+  border: 2px solid #29643a;
+  padding: 10px 26px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  font-family: "Times New Roman";
+}
+
+.clear-filtered-results-button:hover {
+  border: 2px solid #29643a;
+  background-color: #29643a;
+  color: black;
+  border-color: #333333;
+  font-family: "Times New Roman";
+}
+
+.clear-filtered-results-button:active {
+  transform: scale(0.98);
+  font-family: "Times New Roman";
+}
+
+.cancel-button {
+  background-color: transparent;
+  color: white;
+  border: 2px solid #29643a;
+  padding: 10px 26px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  font-family: "Times New Roman";
+}
+
+.cancel-button:hover {
+  border: 2px solid #29643a;
+  background-color: #29643a;
+  color: black;
+  border-color: #333333;
+  font-family: "Times New Roman";
+}
+
+.cancel-button:active {
+  transform: scale(0.98);
+  font-family: "Times New Roman";
+} */
+
+html,
+body {
+  margin: 0;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.checkbox-group label {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 4px;
+  gap: 0;
+  line-height: 1.2;
+}
+
+input[type='checkbox']:focus {
+  outline: 2px solid black;
+  outline-offset: 2px;
+}
+
+.ethnicity-multiselect {
+  position: relative;
+  width: 300px;
+  margin-bottom: 1em;
+}
+
+.dropdown-display {
+  padding: 8px;
+  border: 1px solid grey;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 2px;
+}
+
+/* border: 1px solid #ccc; */
+/* border: 1px solid black; */
+/* border-radius: 4px; */
+/* color: black; */
+
+.dropdown-display:focus {
+  padding: 8px;
+  border: 1px solid black;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 2px;
+  color: black;
+}
+
+/* border: 1px solid grey; */
+/* border-radius: 4px; */
+
+.dropdown-arrow {
+  float: right;
+}
+
+.user-connections-forms-dropdown-options {
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: scroll;
+  width: 100%;
+  padding: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  color: black;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-connections-forms-dropdown-options label {
+  display: flex;
+  align-items: center;
+  margin: 8px;
+}
+
+.user-connections-forms-dropdown-options input[type="checkbox"] {
+  margin: 5px;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.wrapper.dark .ethnicity-multiselect .user-connections-forms-dropdown-options label,
+.wrapper.dark .dropdown-display,
+.wrapper.green .ethnicity-multiselect .user-connections-forms-dropdown-options label,
+.wrapper.blue .ethnicity-multiselect .user-connections-forms-dropdown-options label,
+.wrapper.red .ethnicity-multiselect .user-connections-forms-dropdown-options label,
+.wrapper.purple .ethnicity-multiselect .user-connections-forms-dropdown-options label {
+  color: black;
+}
+
+select {
+  margin: 10px;
+}

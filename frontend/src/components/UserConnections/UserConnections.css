@@ -1,0 +1,33 @@
+/* frontend/src/components/UserConnections/UserConnections.css */
+div.dropdown-label {
+    color: black;
+}
+
+.dropdown-label {
+    background-color: #fff;
+    color: black;
+}
+
+.user-connections-wrapper {
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1700px;
+    background: #FFFFFF1A;
+}
+
+/* .user-connections-wrapper h1 {
+    color: black;
+    background: white;
+    border-radius: 3px;
+    border: solid;
+} */
+
+.user-connections-wrapper label {
+    color: black;
+}
+
+.user-connections-wrapper p,
+.user-connections-wrapper h3 {
+    color: white;
+}

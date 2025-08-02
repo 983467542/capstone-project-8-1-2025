@@ -1,0 +1,42 @@
+/* TODO: Add sitewide styles */
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+label {
+  color: white;
+}
+
+select {
+  padding: 8px;
+}
+
+/* option {
+
+} */
+
+div#root {
+  margin: 0;
+  padding: 0;
+}
+
+.active {
+  color: black;
+}
+
+button {
+  font-family: "Times New Roman";
+  font-size: 14px;
+}
+
+/* h1,
+{
+
+} */
+
+/* li {
+background-color: black;
+color: white;
+    } */

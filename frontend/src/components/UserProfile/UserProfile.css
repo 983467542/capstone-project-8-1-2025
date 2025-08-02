@@ -1,0 +1,205 @@
+/* frontend/src/components/UserProfile/UserProfile.css */
+/* .edit-profile-button {
+  color: black;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  border: 1px solid #051D01;
+  font-size: 14px;
+  font-weight: normal;
+  background-color: #327d4a;
+  border-radius: 4px;
+
+  font-family: "Times New Roman";
+} */
+
+/* .edit-profile-button:hover {
+  background-color: #327d4a;
+} */
+
+/* .edit-profile-button:active {
+  background-color: #327d4a;
+  transform: scale(0.98);
+} */
+
+/* .delete-profile-button {
+  padding: 10px 26px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  border: 1px solid #051D01;
+  background-color: #327d4a;
+  color: black;
+  font-size: 14px;
+  font-weight: normal;
+  border-radius: 4px;
+  font-family: "Times New Roman";
+} */
+
+/* .delete-profile-button:hover {
+  border: 2px solid #29643a;
+  background-color: #29643a;
+  color: black;
+  border-color: #333333;
+} */
+
+/* .delete-profile-button:active {
+  transform: scale(0.98);
+} */
+
+/* .delete-profile-button {
+  color: black;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  border: 1px solid #051D01;
+  font-size: 14px;
+  font-weight: normal;
+  background-color: #327d4a;
+  border-radius: 4px;
+  font-family: "Times New Roman";
+} */
+
+/* .add-profile-image-button {
+  color: black;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  border: 1px solid #051D01;
+  font-size: 14px;
+  font-weight: normal;
+  background-color: #327d4a;
+  border-radius: 4px;
+  font-family: "Times New Roman";
+} */
+
+html,
+body {
+  margin: 0;
+}
+
+/* .user-profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  max-width: 100%;
+  background-color: #051D01;
+  border-radius: 0;
+  height: 100%;
+  color: darkgrey;
+  padding: 32px;
+}
+
+.user-profile-wrapper h1 {
+  text-align: center;
+} */
+
+.user-profile-cards {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-color: #051D01;
+  border-radius: 0;
+  padding: 2rem;
+  background: white;
+  min-height: 100vh;
+}
+
+.user-profile-cards label {
+  color: black;
+  line-height: 30px;
+}
+
+input.user-profile-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.checkbox-group label {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 4px;
+  gap: 0;
+  line-height: 1.2;
+}
+
+.checkbox-group label input[type='checkbox'],
+.checkbox-group label input[type='radio'] {
+  margin: 5px;
+  padding: 0;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+}
+
+input[type='checkbox']:focus {
+  outline: 2px solid black;
+  outline-offset: 2px;
+}
+
+.ethnicity-multiselect {
+  position: relative;
+  width: 300px;
+  margin-bottom: 1em;
+}
+
+.user-profile-dropdown-display {
+  padding: 8px;
+  border: 1px solid grey;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 2px;
+  color: black;
+}
+
+/* border: 1px solid black; */
+/* border-radius: 4px; */
+
+.dropdown-arrow {
+  float: right;
+}
+
+.user-profile-dropdown-options {
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: scroll;
+  width: 100%;
+  padding: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-profile-dropdown-options label {
+  color: black;
+  display: flex;
+  align-items: center;
+  margin: 8px;
+}
+
+.user-profile-dropdown-options label input[type="checkbox"] {
+  margin: 5px;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+}
+
+div.user-info {
+  min-height: 100vh;
+}
+
+/* .user-profile-header {
+  background-color: #051D01;
+} */

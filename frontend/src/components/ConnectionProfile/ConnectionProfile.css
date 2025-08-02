@@ -1,0 +1,43 @@
+/* frontend/src/components/ConnectionProfile/ConnectionProfile.css */
+.connection-profile-wrapper {
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1700px;
+  z-index: 1;
+  background-color: #FFFFFF1A;
+  opacity: 70%;
+  min-height: 100vh;
+}
+
+.connection-profile-wrapper p,
+.connection-profile-wrapper label,
+.connection-profile-wrapper h1 {
+  color: white;
+}
+
+.connection-profile-wrapper.light p,
+.connection-profile-wrapper.light label,
+.connection-profile-wrapper.light h1 {
+  color: black;
+}
+
+.connection-profile-wrapper.light {
+  background: white;
+  opacity: 100%;
+  border: 1px solid black;
+  min-height: 100vh;
+}
+
+.form-group label {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+input.connection-profile-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  font-size: 1rem;
+}

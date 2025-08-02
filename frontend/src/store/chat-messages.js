@@ -1,0 +1,344 @@
+// frontend/src/store/chat-messages.js
+import { csrfFetch } from './csrf';
+
+// Action Types
+const SEND_MESSAGE = 'SEND_MESSAGE';
+const ADD_INCOMING_MESSAGE = 'ADD_INCOMING_MESSAGE';
+const GET_MESSAGES = 'GET_MESSAGES';
+const EDIT_MESSAGE = 'EDIT_MESSAGE';
+const DELETE_MESSAGE = 'DELETE_MESSAGE';
+const GET_CHAT_HISTORY = 'GET_CHAT_HISTORY';
+const SET_LOADING = 'SET_LOADING';
+const SET_ERROR = 'SET_ERROR';
+
+// Action Creators
+export const setLoading = (isLoading) => ({
+  type: SET_LOADING,
+  payload: isLoading
+});
+
+export const setError = (error) => ({
+  type: SET_ERROR,
+  payload: error
+});
+
+// Thunk Action Creators
+export const sendMessage = (messageData) => async (dispatch, getState) => {
+  dispatch(setLoading(true));
+
+  const currentUserId = getState().session?.user?.id;
+  if (!currentUserId) {
+    dispatch(setError('No logged-in user ID'));
+    dispatch(setLoading(false));
+    return;
+  }
+
+  try {
+    const response = await csrfFetch('/chat-messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(messageData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to send message');
+    }
+
+    const data = await response.json();
+
+    dispatch({
+      type: SEND_MESSAGE,
+      payload: {
+        message: {
+          ...data,
+          content: data.originalContent
+        },
+        currentUserId
+      }
+    });
+
+    return data;
+  } catch (error) {
+    console.error('Error sending message:', error);
+    dispatch(setError(error.message));
+    throw error;
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const getMessages = () => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const response = await csrfFetch('/chat-messages');
+    if (!response.ok) throw new Error('Failed to fetch messages');
+
+    const data = await response.json();
+    dispatch({
+      type: GET_MESSAGES,
+      payload: data
+    });
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    dispatch(setError(error.message));
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const getChatHistory = (userId) => async (dispatch) => {
+  if (!userId) {
+    console.warn("getChatHistory called without a userId");
+    return;
+  }
+  dispatch(setLoading(true));
+  try {
+    const response = await csrfFetch(`/chat-messages/${userId}`);
+    if (!response.ok) throw new Error('Failed to get chat history');
+
+    const data = await response.json();
+
+    dispatch({
+      type: GET_CHAT_HISTORY,
+      payload: { userId, messages: data }
+    });
+  } catch (error) {
+    console.error('Error fetching chat history:', error);
+    dispatch(setError(error.message));
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const editMessage = (messageId, updatedMessage) => async (dispatch, getState) => {
+  dispatch(setLoading(true));
+  try {
+    const response = await csrfFetch(`/chat-messages/${messageId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedMessage),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to edit message');
+    }
+
+    const data = await response.json();
+
+    const currentUserId = getState().session.user.id;
+
+    const latestContent = data?.editedContent || data?.content;
+
+    dispatch({
+      type: EDIT_MESSAGE,
+      payload: {
+        message: {
+          ...data,
+          content: latestContent,
+        },
+        currentUserId
+      }
+    });
+
+    return data;
+  } catch (error) {
+    console.error('Error editing message:', error);
+    dispatch(setError(error.message));
+    throw error;
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const deleteMessage = (messageId) => async (dispatch, getState) => {
+  dispatch(setLoading(true));
+  try {
+    const state = getState();
+    const currentUserId = state.session.user.id;
+
+    const allMessages = Object.values(state.chatMessages.messages || {}).flat();
+    const originalMessage = allMessages.find((msg) => msg.id === messageId);
+
+    if (!originalMessage) {
+      throw new Error('Message not found in state.');
+    }
+
+    const response = await csrfFetch(`/chat-messages/${messageId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Failed to delete message');
+    }
+
+    const data = await response.json();
+
+    dispatch({
+      type: DELETE_MESSAGE,
+      payload: {
+        message: data,
+        currentUserId,
+        deletedContent: data.deletedContent
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.error('Error deleting message:', error);
+    dispatch(setError(error.message));
+    throw error;
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+
+export const addIncomingMessage = (message) => (dispatch, getState) => {
+  const currentUserId = getState().session?.user?.id;
+  if (!currentUserId) {
+    dispatch(setError('No logged-in user ID'));
+    return;
+  }
+
+  dispatch({
+    type: ADD_INCOMING_MESSAGE,
+    payload: {
+      message,
+      currentUserId
+    }
+  });
+};
+
+// Initial State
+const initialState = {
+  messages: {},
+  loading: false,
+  error: null,
+};
+
+// Reducer
+const chatMessagesReducer = (state = initialState, action) => {
+  // if (!action || typeof action.type !== 'string') return state;
+  if (action.type.startsWith('@@redux/')) return state;
+
+  switch (action.type) {
+    case SEND_MESSAGE: {
+      const { message: msg, currentUserId } = action.payload;
+      if (!msg.senderId || !msg.receiverId || !currentUserId) {
+        console.warn('Invalid SEND_MESSAGE payload (currentUserId, senderId, or receiverId is missing)', action.payload);
+        return state;
+      }
+
+      const userId = msg.senderId === currentUserId ? msg.receiverId : msg.senderId;
+
+      return {
+        ...state,
+        messages: {
+          ...state.messages,
+          [userId]: [...(state.messages[userId] || []), msg]
+        },
+        error: null,
+      };
+    }
+    case ADD_INCOMING_MESSAGE: {
+      const { message: msg, currentUserId } = action.payload;
+      if (!msg.senderId || !msg.receiverId || !currentUserId) {
+        console.warn('Invalid ADD_INCOMING_MESSAGE payload (currentUserId, senderId, or receiverId is missing)', action.payload);
+        return state;
+      }
+
+      const userId = msg.senderId === currentUserId ? msg.receiverId : msg.senderId;
+      if (!userId) {
+        console.warn('userId is invalid', userId, msg);
+        return state;
+      }
+
+      return {
+        ...state,
+        messages: {
+          ...state.messages,
+          [userId]: [...(state.messages[userId] || []), msg]
+        },
+        error: null
+      };
+    }
+    case GET_MESSAGES:
+      return {
+        ...state,
+        messages: action.payload,
+        error: null,
+      };
+    case GET_CHAT_HISTORY: {
+      const { userId, messages } = action.payload;
+      if (!userId) {
+        console.warn('GET_CHAT_HISTORY missing userId in payload', action);
+        return state;
+      }
+      return {
+        ...state,
+        messages: {
+          ...state.messages,
+          [userId]: messages
+        },
+        error: null
+      };
+    }
+    case EDIT_MESSAGE: {
+      const { message: msg, currentUserId } = action.payload;
+      if (!msg.senderId || !msg.receiverId || !currentUserId) {
+        console.warn('Invalid EDIT_MESSAGE payload (currentUserId, senderId, or receiverId is missing)', action.payload);
+        return state;
+      }
+
+      const userId = msg.senderId === currentUserId ? msg.receiverId : msg.senderId;
+      if (!userId) {
+        console.warn('userId is invalid', userId, msg);
+        return state;
+      }
+
+      const updatedMessages = state.messages[userId]?.map(m =>
+        m.id === msg.id ? { ...m, ...msg } : m
+      ) || [];
+
+      return {
+        ...state,
+        messages: {
+          ...state.messages,
+          [userId]: updatedMessages
+        },
+        error: null
+      };
+    }
+    case DELETE_MESSAGE: {
+      const { message: msg, currentUserId, deletedContent } = action.payload;
+      const updatedMessages = {
+        ...state.messages,
+        [msg.receiverId === currentUserId ? msg.senderId : msg.receiverId]: state.messages[msg.receiverId === currentUserId ? msg.senderId : msg.receiverId].map((m) =>
+          m.id === msg.id ? { ...msg, deletedContent } : m
+        )
+      };
+      return {
+        ...state,
+        messages: updatedMessages
+      };
+    }
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload,
+      };
+
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export default chatMessagesReducer;

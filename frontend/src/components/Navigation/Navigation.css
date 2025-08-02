@@ -1,0 +1,144 @@
+/* frontend/src/components/Navigation/Navigation.css */
+
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1em;
+}
+
+/* Darker 1	#193e25	
+Darker 2	#15321f	
+Darker 3	#10271a	
+Darker 4	#0b1b14	
+Darker 5 #060f0e */
+
+li {
+  color: black;
+  background-color: transparent;
+}
+
+ul {
+  background-color: transparent;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.profile-dropdown {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 4px 6px black;
+  list-style: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+.profile-dropdown li {
+  background: white;
+  color: black;
+}
+
+ul.profile-dropdown {
+  margin: 5px 5px;
+}
+
+ul.profile-dropdown li {
+  background: white;
+}
+
+.navigation span {
+  display: inline-block;
+  margin-right: 200px;
+  margin-left: 200px;
+}
+
+.specific-chats-section ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.specific-chats-section li {
+  margin: 4px 0;
+}
+
+.navigation {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 300px;
+  background-color: #222;
+  color: white;
+  padding: 20px;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transform: translateX(100%);
+}
+
+.navigation.closed {
+  transform: translateX(100%);
+}
+
+.navigation.open {
+  transform: translateX(0);
+}
+
+.navigation span,
+.navigation ul,
+.navigation li {
+  margin: 5px 5px;
+}
+
+.navigation li {
+  background-color: #222;
+}
+
+.navigation a {
+  color: white;
+  text-decoration: none;
+  background-color: #222;
+}
+
+/* color: #1e4a2b; */
+/* color: #193e25; */
+/* color: #15321f; */
+/* color: #10271a; */
+/* Darker 4	#0b1b14	 */
+/* Almost Black	#060f0e */
+
+.navigation.active {
+  color: #1e4a2b;
+}
+
+.sidebar-toggle-button {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1100;
+  background-color: #444;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* .navigation-wrapper {
+  width: 50vw;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 10px;
+} */

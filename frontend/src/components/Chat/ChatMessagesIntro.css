@@ -1,0 +1,49 @@
+/* frontend/src/components/Chat/ChatMessagesIntro.css */
+/* .restricted-chat-messages-intro h1 {
+    color: black;
+}
+
+.restricted-chat-messages-intro {
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 1700px;
+    z-index: 1;
+    background-color: grey;
+    color: black;
+}
+
+.restricted-chat-messages-intro a {
+    color: black;
+    background-color: grey;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.restricted-chat-messages-intro li {
+    background-color: grey;
+    color: grey;
+    list-style-type: none;
+}
+
+.restricted-chat-messages-header p {
+    color: white;
+    font-size: 17.6px;
+}
+
+.restricted-chat-messages-header {
+    padding: 32px;
+} */
+
+.chat-messages-intro-cards {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-color: #001B3A;
+    border-radius: 0;
+    padding: 2rem;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background: white;
+}

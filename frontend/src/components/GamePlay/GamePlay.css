@@ -1,0 +1,36 @@
+.completed {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+div.trait-roast {
+  color: white;
+}
+
+html,
+body {
+  margin: 0;
+  background: black;
+  color: black;
+}
+
+/* .game-play-container h2,
+.game-play-container h3,
+.game-play-container h4,
+.game-play-container li,
+.game-play-container p {
+  color: white;
+} */
+
+.game-play-cards {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-color: #001B3A;
+  border-radius: 0;
+  padding: 2rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: white;
+}

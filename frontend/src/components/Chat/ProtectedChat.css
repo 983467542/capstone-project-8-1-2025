@@ -1,0 +1,15 @@
+/* frontend/src/components/Chat/ProtectedChat.css */
+.restricted-chat p,
+.restricted-chat a {
+    /* color: white; */
+    color: black;
+}
+
+.restricted-chat {
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 1700px;
+    z-index: 1;
+    background-color: grey;
+}

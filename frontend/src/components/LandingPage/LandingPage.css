@@ -1,0 +1,131 @@
+/* frontend/src/components/LandingPage/LandingPage.css */
+/* .auth-buttons {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.btn-signup {
+  background-color: #1e4a2b;
+  color: black;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  font-family: "Times New Roman";
+}
+
+.btn-signup:hover {
+  background-color: #327d4a;
+  font-family: "Times New Roman";
+}
+
+.btn-signup:active {
+  background-color: #327d4a;
+  transform: scale(0.98);
+  font-family: "Times New Roman";
+}
+
+.btn-login {
+  background-color: transparent;
+  color: black;
+  border: 2px solid #29643a;
+  padding: 10px 26px;
+  border-radius: 9999px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  font-family: "Times New Roman";
+}
+
+.btn-login:hover {
+  border: 2px solid #29643a;
+  background-color: #29643a;
+  color: black;
+  border-color: #333333;
+  font-family: "Times New Roman";
+}
+
+.btn-login:active {
+  transform: scale(0.98);
+  font-family: "Times New Roman";
+}
+
+.btn-demo {
+  background-color: #29643a;
+  color: black;
+  border: 2px solid #333333;
+  padding: 10px 26px;
+  border-radius: 9999px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  font-family: "Times New Roman";
+}
+
+.btn-demo:hover {
+  border: 2px solid #29643a;
+  background-color: #1e4a2b;
+  color: black;
+  border-color: #333333;
+  font-family: "Times New Roman";
+}
+
+.btn-demo:active {
+  transform: scale(0.98);
+  font-family: "Times New Roman";
+} */
+
+.landing-page-wrapper {
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.landing-page-wrapper.light {
+  background-color: #f5f5f5;
+  color: #000;
+}
+
+.landing-page-wrapper.light a,
+.landing-page-wrapper.blue a,
+.landing-page-wrapper.purple a {
+  color: #000;
+}
+
+.landing-page-wrapper.dark {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+.landing-page-wrapper.dark p {
+  color: white;
+}
+
+.landing-page-h1,
+.landing-page-p {
+  margin: 1em;
+}
+
+.landing-page-wrapper {
+  background: white;
+  min-height: 100vh;
+}
+
+/* .landing-page-container {
+  border: 3px solid grey;
+  border-radius: 12px;
+  min-width: 5vh;
+  margin: 0 1em;
+  padding: 25px;
+} */
+
+/* margin-top: 5px; */

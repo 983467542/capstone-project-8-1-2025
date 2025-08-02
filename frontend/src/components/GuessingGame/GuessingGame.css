@@ -1,0 +1,163 @@
+/* frontend/src/components/GuessingGame/GuessingGame.css */
+.guessing-game-wrapper li,
+.guessing-game-wrapper h1 {
+    background: #001B3A;
+    color: black;
+}
+
+.guessing-game-cards {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-color: #001B3A;
+    border-radius: 0;
+    padding: 2rem;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background: white;
+}
+
+.guessing-game-wrapper span,
+.guessing-game-wrapper p,
+.guessing-game-wrapper h2,
+.guessing-game-wrapper h3,
+.guessing-game-wrapper h4 {
+    color: black;
+}
+
+.guessing-game-wrapper h1 {
+    color: darkgrey;
+    text-align: center;
+}
+
+.guessing-game-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    max-width: 100%;
+    background-color: #001B3A;
+    border-radius: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 32px;
+}
+
+button.start-game-btn,
+button.reset-saved-game-btn,
+button.remove.button,
+button.add-button,
+button.settings-btn,
+button.reset-game-btn,
+button.force-match-btn,
+button.undo-match-btn,
+button.try-again-btn,
+button.another-card-btn,
+button.back-btn,
+button.next-player-btn,
+button.submit,
+button.rules-btn,
+button.add-player-btn,
+button.remove-player-btn,
+button.roast-mode-btn,
+button.remove-player-btn,
+.add-btn,
+.remove-btn,
+.add-player-btn {
+    width: 140px;
+    height: 40px;
+    font-weight: normal;
+    font-size: 14px;
+    background-color: skyblue;
+    color: #242424;
+    padding: 4px 10px;
+    min-width: 200px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px;
+    word-break: break-word;
+    margin: 4px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-wrap: balance;
+    border: 1px solid #001B3A;
+    font-family: "Times New Roman";
+}
+
+.category-btn,
+.card-btn,
+.option-btn {
+    min-width: 200px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: normal;
+    white-space: normal;
+    word-break: break-word;
+    background-color: skyblue;
+    color: #242424;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 4px;
+    padding: 4px 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-wrap: balance;
+    border: 1px solid #001B3A;
+    font-family: "Times New Roman";
+}
+
+.navigation-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 1rem 0;
+    font-family: "Times New Roman";
+}
+
+.game-button {
+    min-width: 240px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: normal;
+    white-space: normal;
+    text-align: center;
+    padding: 6px 12px;
+    background-color: skyblue;
+    color: #242424;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #001B3A;
+    font-family: "Times New Roman";
+}
+
+input.guessing-game-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+html {
+    background-color: white;
+}
+
+/* body {
+    background-color: white;
+} */
+
+/* .header.dark html {
+    color: white;
+} */
+
+/* .guessing-game-header {
+    background: darkblue;
+} */
