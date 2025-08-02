@@ -315,14 +315,6 @@ function UserProfile() {
     }
   };
 
-  if (!sessionUser) {
-    return (
-      <>
-        <p>Please log in or sign up to create a profile.</p>
-      </>
-    );
-  }
-
   const toggleValue = (array = [], value) => {
     if (array.includes(value)) {
       return array.filter((v) => v !== value);
