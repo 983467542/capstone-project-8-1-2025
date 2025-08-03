@@ -25,6 +25,7 @@ function ConnectionProfile() {
   const [profile, setProfile] = useState(null);
   const [message, setMessage] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
+  const [error, setError] = useState(null);
   const [suggestedActivityInput, setSuggestedActivityInput] = useState('');
   const [meetingTimeInput, setMeetingTimeInput] = useState('');
   const [activityError, setActivityError] = useState('');
@@ -32,7 +33,6 @@ function ConnectionProfile() {
   const [statusType, setStatusType] = useState('');
   const [sessionUsername, setSessionUsername] = useState('');
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
-  const [messageColor, setMessageColor] = useState('');
 
   const profileFetched = useRef(false);
   const connectionFetched = useRef(false);
@@ -40,7 +40,7 @@ function ConnectionProfile() {
   const userIdNumber = Number(userId);
   const currentUserId = useSelector(state => state.session.user?.id);
   const sessionUser = useSelector(state => state.session.user);
-  const { loading: gameLoading, error } = useSelector((state) => state.gamePlays);
+  const { loading: gameLoading } = useSelector((state) => state.gamePlays);
   const connection = useSelector((state) =>
     state.userConnections?.connections.find((conn) =>
       (conn.user1?.id === currentUserId && conn.user2?.id === userIdNumber) ||
@@ -55,10 +55,10 @@ function ConnectionProfile() {
 
   const handleStartGame = async () => {
     clearMessages();
+    setError(null);
 
     if (!sessionUser || !connection) {
-      setMessage('You need a connection to start a game.');
-      setMessageColor('red');
+      setError('You need a connection to start a game.');
       return;
     }
 
@@ -66,8 +66,7 @@ function ConnectionProfile() {
     const user2Confirmed = (connection.meetingStatusUser2 || '').toLowerCase().trim() === 'confirmed';
 
     if (!user1Confirmed || !user2Confirmed) {
-      setMessage('Both users must confirm the meeting before starting a game.');
-      setMessageColor('red');
+      setError('Both users must confirm the meeting before starting a game.');
       return;
     }
 
@@ -77,16 +76,14 @@ function ConnectionProfile() {
     try {
       const game = await dispatch(startGame({ user_1_id: user1Id, user_2_id: user2Id }));
       if (!game) {
-        setMessage('Failed to start game. Please try again.');
-        setMessageColor('red');
+        setError('Failed to start game. Please try again.');
         return;
       }
       setMessage(`Game started with ${profile.username}`);
       navigate(`/game-plays/${user1Id}/${user2Id}`);
     } catch (err) {
       console.error('Error starting game:', err);
-      setMessage('Failed to start game.');
-      setMessageColor('red');
+      setError('Failed to start game.');
     }
   };
 
@@ -206,6 +203,7 @@ function ConnectionProfile() {
 
   const handleAcceptConnection = async () => {
     clearMessages();
+    setError(null);
     if (connection) {
       try {
         const statusField = currentUserId === connection.user_1_id
@@ -214,21 +212,19 @@ function ConnectionProfile() {
 
         await dispatch(updateConnectionStatus(connection.id, statusField));
         setMessage('Connection accepted.');
-        setMessageColor('green');
         await dispatch(getConnection(userId));
       } catch (err) {
         console.error('Error accepting connection:', err);
-        setMessage('Failed to accept connection.');
-        setMessageColor('red');
+        setError('Failed to accept connection.');
       }
     } else {
-      setMessage('No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, then click on the Accept Connection button');
-      setMessageColor('red');
+      setError('No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, then click on the Accept Connection button');
     }
   };
 
   const handleDeclineConnection = async () => {
     clearMessages();
+    setError(null);
     if (connection) {
       try {
         const statusField = currentUserId === connection.user_1_id
@@ -237,24 +233,21 @@ function ConnectionProfile() {
 
         await dispatch(updateConnectionStatus(connection.id, statusField));
         setMessage('Connection declined.');
-        setMessageColor('green');
         await dispatch(getConnection(userId));
       } catch (err) {
         console.error('Error declining connection:', err);
-        setMessage('Failed to decline connection.');
-        setMessageColor('red');
+        setError('Failed to decline connection.');
       }
     } else {
-      setMessage('No connection found to decline. Type a suggested activity and select a meeting time, click on the Want to Meet button, click on the Accept Connection button, then click on the Decline Connection button.');
-      setMessageColor('red');
+      setError('No connection found to decline. Type a suggested activity and select a meeting time, click on the Want to Meet button, click on the Accept Connection button, then click on the Decline Connection button.');
     }
   };
 
   const handleCancelRequest = async () => {
     clearMessages();
+    setError(null);
     if (!connection) {
-      setMessage("No connection request to cancel.");
-      setMessageColor('red');
+      setError('No connection request to cancel.');
       return;
     }
     const isUser1 = currentUserId === connection.user_1_id;
@@ -263,8 +256,7 @@ function ConnectionProfile() {
     const time = isUser1 ? connection.meetingTimeUser1 : connection.meetingTimeUser2;
 
     if (!activity || !time) {
-      setMessage("Type a suggested activity and select a meeting time, click on the Want to Meet button, then click on the Cancel Request button.");
-      setMessageColor('red');
+      setError('Type a suggested activity and select a meeting time, click on the Want to Meet button, then click on the Cancel Request button.');
       return;
     }
     const confirmed = window.confirm('Are you sure you want to cancel the connection request?');
@@ -288,19 +280,18 @@ function ConnectionProfile() {
       await dispatch(updateConnection(payload));
       await dispatch(getConnection(userId));
       setMessage('Connection request canceled.');
-      setMessageColor('green');
 
       setSuggestedActivityInput('');
       setMeetingTimeInput('');
     } catch (err) {
       console.error('Error canceling connection request:', err);
-      setMessage('Failed to cancel the connection request.');
-      setMessageColor('red');
+      setError('Failed to cancel the connection request.');
     }
   };
 
   const handleWantToMeet = async () => {
     clearMessages();
+    setError(null);
     const user2Id = parseInt(userId);
     const suggestedActivity = suggestedActivityInput.trim();
     const rawDate = new Date(meetingTimeInput);
@@ -344,12 +335,10 @@ function ConnectionProfile() {
       if (!connection || connection.connectionStatus === 'pending') {
         await dispatch(addConnection(payload, (errMsg) => setStatusMessage(errMsg)));
         setMessage('Connection request sent!');
-        setMessageColor('green');
       } else {
         payload.id = connection.id;
         await dispatch(updateConnection(payload, (errMsg) => setStatusMessage(errMsg)));
         setMessage('Connection requested.');
-        setMessageColor('green');
         setSuggestedActivityInput(suggestedActivity);
         setMeetingTimeInput(meetingTimeInput);
         await dispatch(getConnection(userId));
@@ -359,18 +348,15 @@ function ConnectionProfile() {
       setMeetingTimeInput('');
     } catch (err) {
       console.error('Error sending connection request:', err);
-      setMessage('Failed to send connection request.');
-      setMessageColor('red');
+      setError('Failed to send connection request.');
     }
   };
 
   const handleConfirmMeeting = async () => {
     clearMessages();
+    setError(null);
     if (!connection) {
-      setMessage(
-        'No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, then click on the Accept Connection button.'
-      );
-      setMessageColor('red');
+      setError('No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, then click on the Accept Connection button.');
       return;
     }
     if (connection && sessionUser) {
@@ -380,46 +366,38 @@ function ConnectionProfile() {
         const payload = { [statusKey]: 'confirmed' };
         await dispatch(updateMeetingStatus(connection.id, payload));
         setMessage('Meeting confirmed.');
-        setMessageColor('green');
         await dispatch(getConnection(userId));
       } catch (err) {
         console.error('Error confirming meeting:', err);
-        setMessage('Failed to confirm meeting.');
-        setMessageColor('red');
+        setError('Failed to confirm meeting.');
       }
     }
   };
 
   const handleMeetAgain = async () => {
     clearMessages();
+    setError(null);
     if (!connection) {
-      setMessage(
-        'No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, click on the Accept Connection button, then click on the Confirm Meeting button or the Cancel Meeting button.'
-      );
-      setMessageColor('red');
+      setError('No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, click on the Accept Connection button, then click on the Confirm Meeting button or the Cancel Meeting button.');
       return;
     }
     if (connection) {
       try {
         await dispatch(updateFeedback(connection.id, true));
         setMessage('Your interest in meeting again has been noted.');
-        setMessageColor('green');
         await dispatch(getConnection(userId));
       } catch (err) {
         console.error('Error updating feedback:', err);
-        setMessage('Failed to update feedback.');
-        setMessageColor('red');
+        setError('Failed to update feedback.');
       }
     }
   };
 
   const handleNeverMeetAgain = async () => {
     clearMessages();
+    setError(null);
     if (!connection) {
-      setMessage(
-        'No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, click on the Accept Connection button, then click on the Confirm Meeting button or the Cancel Meeting button.'
-      );
-      setMessageColor('red');
+      setError('No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, click on the Accept Connection button, then click on the Confirm Meeting button or the Cancel Meeting button.');
       return;
     }
 
@@ -429,8 +407,7 @@ function ConnectionProfile() {
         : 'meetAgainChoiceUser2';
 
     if (!connection[feedbackKey]) {
-      setMessage('Click on the Meet Again button then click on the Never Meet Again button.');
-      setMessageColor('red');
+      setError('Click on the Meet Again button then click on the Never Meet Again button.');
       return;
     }
 
@@ -443,22 +420,18 @@ function ConnectionProfile() {
       await dispatch(updateConnectionStatus(connection.id, statusField));
       await dispatch(updateFeedback(connection.id, false));
       setMessage('You have chosen to never meet again. Connection removed.');
-      setMessageColor('green');
       await dispatch(getConnection(userId));
     } catch (err) {
       console.error('Error choosing to never meet again and removing connection:', err);
-      setMessage('Failed to choose to never meet again and remove connection.');
-      setMessageColor('red');
+      setError('Failed to choose to never meet again and remove connection.');
     }
   };
 
   const handleUndoMeetAgainOrNeverMeetAgain = async () => {
     clearMessages();
+    setError(null);
     if (!connection) {
-      setMessage(
-        'No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, click on the Accept Connection button, click on the Confirm Meeting button or the Cancel Meeting button, then click on the Meet Again button or the Never Meet Again button.'
-      );
-      setMessageColor('red');
+      setError('No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, click on the Accept Connection button, click on the Confirm Meeting button or the Cancel Meeting button, then click on the Meet Again button or the Never Meet Again button.');
       return;
     }
     if (connection && sessionUser) {
@@ -469,23 +442,19 @@ function ConnectionProfile() {
 
         await dispatch(updateFeedback(connection.id, null, feedbackField));
         setMessage('Your meet again choice has been reset.');
-        setMessageColor('green');
         await dispatch(getConnection(userId));
       } catch (err) {
         console.error('Error undoing meet again/never meet again:', err);
-        setMessage('Failed to undo feedback.');
-        setMessageColor('red');
+        setError('Failed to undo feedback.');
       }
     }
   };
 
   const handleCancelMeeting = async () => {
     clearMessages();
+    setError(null);
     if (!connection) {
-      setMessage(
-        'No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, then click on the Accept Connection button.'
-      );
-      setMessageColor('red');
+      setError('No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, then click on the Accept Connection button.');
       return;
     }
     if (connection && sessionUser) {
@@ -496,8 +465,7 @@ function ConnectionProfile() {
       const currentStatus = connection[statusKey];
 
       if (currentStatus !== 'confirmed') {
-        setMessage('You can only cancel a meeting that has been confirmed.');
-        setMessageColor('red');
+        setError('You can only cancel a meeting that has been confirmed.');
         return;
       }
 
@@ -507,23 +475,19 @@ function ConnectionProfile() {
       try {
         await dispatch(updateMeetingStatus(connection.id, { [statusKey]: 'canceled' }));
         setMessage('Meeting has been canceled.');
-        setMessageColor('green');
         await dispatch(getConnection(userId));
       } catch (err) {
         console.error('Error canceling meeting:', err);
-        setMessage('Failed to cancel the meeting.');
-        setMessageColor('red');
+        setError('Failed to cancel the meeting.');
       }
     }
   };
 
   const handleUndoConfirmingOrCancelingMeeting = async () => {
     clearMessages();
+    setError(null);
     if (!connection) {
-      setMessage(
-        'No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, click on the Accept Connection button, then click on the Confirm Meeting button or the Cancel Meeting button.'
-      );
-      setMessageColor('red');
+      setError('No connection found for this user. Type a suggested activity and select a meeting time, click on the Want to Meet button, click on the Accept Connection button, then click on the Confirm Meeting button or the Cancel Meeting button.');
       return;
     }
     if (connection && sessionUser) {
@@ -532,12 +496,10 @@ function ConnectionProfile() {
       try {
         await dispatch(updateMeetingStatus(connection.id, { [statusKey]: 'pending' }));
         setMessage('Your meeting status has been reset.');
-        setMessageColor('green');
         await dispatch(getConnection(userId));
       } catch (err) {
         console.error('Error undoing meeting confirmation/cancellation:', err);
-        setMessage('Failed to undo meeting status.');
-        setMessageColor('red');
+        setError('Failed to undo meeting status.');
       }
     }
   };
@@ -742,7 +704,8 @@ function ConnectionProfile() {
             {statusMessage}
           </p>
         )}
-        <p style={{ color: messageColor }}>{message}</p>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {message && <p style={{ color: 'green' }}>{message}</p>}
 
         <button type="button" className={`connection-profile-rounded-rectangular-button ${theme}`} onClick={handleWantToMeet}>Want to Meet</button>
         <button type="button" className={`connection-profile-rounded-rectangular-button ${theme}`} onClick={handleCancelRequest}>Cancel Request</button>
