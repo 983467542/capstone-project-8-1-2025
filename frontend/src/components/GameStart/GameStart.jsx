@@ -205,11 +205,7 @@ const GameStart = () => {
             </button>
           </div>
 
-          {errorMessage && (
-            <div className="error-message">
-              {errorMessage}
-            </div>
-          )}
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 
           {error && (
             <div className="error-message">
