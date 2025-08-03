@@ -886,8 +886,6 @@ const GamePlay = () => {
       </div>
       <div className={"game-play-cards"}>
         {loading && <p className="loading-message">Loading...</p>}
-        {error && <p className="error-message">{error}</p>}
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
         {/* to show the currently selected game */}
         {/* {game && (
@@ -1232,8 +1230,9 @@ const GamePlay = () => {
                   onClick={handleGoBack} className={`game-play-rounded-rectangular-button ${theme}`}>
                   Go Back to Category Selection
                 </button>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
                 {errorMessage && (
-                  <div className="error-message">
+                  <div style={{ color: 'red' }}>
                     {errorMessage}
                   </div>
                 )}
