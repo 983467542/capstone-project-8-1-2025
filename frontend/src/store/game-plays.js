@@ -113,7 +113,7 @@ export const startGame = ({ user_1_id, user_2_id }) => async (dispatch) => {
     });
     return data;
   } catch (error) {
-    dispatch(setError(error.message || 'You can only start a game if you and another user have confirmed a meeting with each other.'));
+    dispatch(setError(error.message));
     return null;
   } finally {
     dispatch(setLoading(false));
