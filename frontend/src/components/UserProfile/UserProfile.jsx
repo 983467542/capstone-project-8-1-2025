@@ -200,14 +200,6 @@ function UserProfile() {
       .catch(err => console.error('Error loading locations:', err));
   }, []);
 
-  //   useEffect(() => {
-  //   if (!sessionUser?.id) {
-  //     Object.keys(localStorage)
-  //       .filter(key => key.startsWith('userProfileDraft_'))
-  //       .forEach(key => localStorage.removeItem(key));
-  //   }
-  // }, [sessionUser?.id]);
-
   const handleDeleteProfile = async () => {
     if (window.confirm('Are you sure you want to delete your profile? This action cannot be undone.')) {
 
